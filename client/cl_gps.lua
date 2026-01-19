@@ -5,7 +5,6 @@ local blips = {}
 local markersVisible = true
 local isUIOpen = false
 
--- Initialize
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
     PlayerData = QBCore.Functions.GetPlayerData()
     TriggerServerEvent('core_gps:server:loadMarkers')
@@ -31,12 +30,10 @@ AddEventHandler('onResourceStart', function(resourceName)
     end
 end)
 
--- Use GPS Marker Item
 RegisterNetEvent('core_gps:client:useItem', function()
     OpenGPSUI()
 end)
 
--- Open GPS UI
 function OpenGPSUI()
     if isUIOpen then return end
     
@@ -49,14 +46,12 @@ function OpenGPSUI()
     })
 end
 
--- Close GPS UI
 RegisterNUICallback('closeUI', function(data, cb)
     isUIOpen = false
     SetNuiFocus(false, false)
     cb('ok')
 end)
 
--- Mark Current Location
 RegisterNUICallback('markLocation', function(data, cb)
     local ped = PlayerPedId()
     local coords = GetEntityCoords(ped)
@@ -68,26 +63,23 @@ RegisterNUICallback('markLocation', function(data, cb)
         label = data.label or 'Marked Location',
         coords = {x = coords.x, y = coords.y, z = coords.z},
         street = streetName,
-        timestamp = os.time()
+        timestamp = (os and os.time and os.time()) or math.floor(GetGameTimer() / 1000)
     }
     
     TriggerServerEvent('core_gps:server:addMarker', markerData)
     cb('ok')
 end)
 
--- Remove Marker
 RegisterNUICallback('removeMarker', function(data, cb)
     TriggerServerEvent('core_gps:server:removeMarker', data.index)
     cb('ok')
 end)
 
--- Share Marker
 RegisterNUICallback('shareMarker', function(data, cb)
     TriggerServerEvent('core_gps:server:shareMarker', data.playerId, data.index)
     cb('ok')
 end)
 
--- Toggle Markers
 RegisterNUICallback('toggleMarkers', function(data, cb)
     markersVisible = data.visible
     
@@ -100,7 +92,6 @@ RegisterNUICallback('toggleMarkers', function(data, cb)
     cb('ok')
 end)
 
--- Set Waypoint from NUI
 RegisterNUICallback('setWaypoint', function(data, cb)
     local marker = savedMarkers[data.index]
     if marker then
@@ -110,7 +101,6 @@ RegisterNUICallback('setWaypoint', function(data, cb)
     cb('ok')
 end)
 
--- Update markers from server
 RegisterNetEvent('core_gps:client:updateMarkers', function(markers)
     savedMarkers = markers
     
@@ -126,13 +116,11 @@ RegisterNetEvent('core_gps:client:updateMarkers', function(markers)
     end
 end)
 
--- Receive shared marker
 RegisterNetEvent('core_gps:client:receiveSharedMarker', function(markerData, senderName)
     QBCore.Functions.Notify('You received a location from ' .. senderName, 'success')
     TriggerServerEvent('core_gps:server:addMarker', markerData)
 end)
 
--- Notification for share result
 RegisterNetEvent('core_gps:client:shareResult', function(success, message)
     if success then
         QBCore.Functions.Notify(message, 'success')
@@ -141,13 +129,11 @@ RegisterNetEvent('core_gps:client:shareResult', function(success, message)
     end
 end)
 
--- Create blips on map
 function RefreshBlips()
     ClearAllBlips()
     
     if not markersVisible then return end
     
-    -- Check if player has the GPS item
     local hasItem = QBCore.Functions.HasItem(Config.ItemName)
     if not hasItem then return end
     
@@ -166,7 +152,6 @@ function RefreshBlips()
     end
 end
 
--- Clear all blips
 function ClearAllBlips()
     for _, blip in ipairs(blips) do
         if DoesBlipExist(blip) then
@@ -176,7 +161,6 @@ function ClearAllBlips()
     blips = {}
 end
 
--- Handle inventory updates to check for item possession
 local function CheckItemAndUpdateBlips()
     if not markersVisible then return end
     
@@ -190,7 +174,6 @@ local function CheckItemAndUpdateBlips()
     end
 end
 
--- Listen for inventory updates
 RegisterNetEvent('QBCore:Player:SetPlayerData', function(val)
     PlayerData = val
     CheckItemAndUpdateBlips()
@@ -198,16 +181,14 @@ end)
 
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
     PlayerData = QBCore.Functions.GetPlayerData()
-    Wait(1000) -- Small delay to ensure data is loaded
+    Wait(1000)
     CheckItemAndUpdateBlips()
 end)
 
--- Also listen to inventory item updates (when items are added/removed)
 AddEventHandler('QBCore:Client:OnJobUpdate', function()
     CheckItemAndUpdateBlips()
 end)
 
--- Cleanup on resource stop
 AddEventHandler('onResourceStop', function(resourceName)
     if GetCurrentResourceName() == resourceName then
         ClearAllBlips()

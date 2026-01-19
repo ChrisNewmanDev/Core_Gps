@@ -2,8 +2,6 @@ let markers = [];
 let markersVisible = true;
 let markerToDelete = null;
 let markerToShare = null;
-
-// DOM Elements
 const gpsContainer = document.getElementById('gpsContainer');
 const closeBtn = document.getElementById('closeBtn');
 const markBtn = document.getElementById('markBtn');
@@ -18,8 +16,6 @@ const cancelDelete = document.getElementById('cancelDelete');
 const confirmShare = document.getElementById('confirmShare');
 const cancelShare = document.getElementById('cancelShare');
 const sharePlayerId = document.getElementById('sharePlayerId');
-
-// Event Listeners
 closeBtn.addEventListener('click', closeUI);
 markBtn.addEventListener('click', markLocation);
 toggleMarkers.addEventListener('change', toggleMarkersVisibility);
@@ -28,21 +24,16 @@ cancelDelete.addEventListener('click', closeConfirmModal);
 confirmShare.addEventListener('click', handleConfirmShare);
 cancelShare.addEventListener('click', closeShareModal);
 
-// Listen for Enter key on location input
 locationLabel.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') {
         markLocation();
     }
 });
-
-// Listen for Enter key on share input
 sharePlayerId.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') {
         handleConfirmShare();
     }
 });
-
-// Close UI on ESC key
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
         if (confirmModal.classList.contains('active')) {
@@ -55,7 +46,6 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-// NUI Message Handler
 window.addEventListener('message', (event) => {
     const data = event.data;
     
@@ -69,7 +59,6 @@ window.addEventListener('message', (event) => {
     }
 });
 
-// Open UI
 function openUI(markersData, visible) {
     markers = markersData || [];
     markersVisible = visible !== undefined ? visible : true;
@@ -82,10 +71,9 @@ function openUI(markersData, visible) {
     locationLabel.focus();
 }
 
-// Close UI
 function closeUI() {
     gpsContainer.classList.remove('active');
-    fetch(`https://${GetParentResourceName()}/closeUI`, {
+    fetch(`https://${resourceName}/closeUI`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -94,16 +82,14 @@ function closeUI() {
     });
 }
 
-// Mark Location
 function markLocation() {
     const label = locationLabel.value.trim();
     
     if (!label) {
-        // You could show an error message here
         return;
     }
     
-    fetch(`https://${GetParentResourceName()}/markLocation`, {
+    fetch(`https://${resourceName}/markLocation`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -114,11 +100,10 @@ function markLocation() {
     locationLabel.value = '';
 }
 
-// Toggle Markers Visibility
 function toggleMarkersVisibility() {
     markersVisible = toggleMarkers.checked;
     
-    fetch(`https://${GetParentResourceName()}/toggleMarkers`, {
+    fetch(`https://${resourceName}/toggleMarkers`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -127,13 +112,11 @@ function toggleMarkersVisibility() {
     });
 }
 
-// Update Markers
 function updateMarkers(markersData) {
     markers = markersData || [];
     renderMarkers();
 }
 
-// Render Markers
 function renderMarkers() {
     markerCount.textContent = markers.length;
     markersList.innerHTML = '';
@@ -153,7 +136,6 @@ function renderMarkers() {
     });
 }
 
-// Create Marker Element
 function createMarkerElement(marker, index) {
     const div = document.createElement('div');
     div.className = 'marker-item';
@@ -176,8 +158,6 @@ function createMarkerElement(marker, index) {
             <button class="marker-btn delete" data-index="${index}">Remove</button>
         </div>
     `;
-    
-    // Add event listeners to buttons
     const waypointBtn = div.querySelector('.waypoint');
     const shareBtn = div.querySelector('.share');
     const deleteBtn = div.querySelector('.delete');
@@ -189,9 +169,8 @@ function createMarkerElement(marker, index) {
     return div;
 }
 
-// Set Waypoint
 function setWaypoint(index) {
-    fetch(`https://${GetParentResourceName()}/setWaypoint`, {
+    fetch(`https://${resourceName}/setWaypoint`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -200,22 +179,19 @@ function setWaypoint(index) {
     });
 }
 
-// Open Confirm Modal
 function openConfirmModal(index) {
     markerToDelete = index;
     confirmModal.classList.add('active');
 }
 
-// Close Confirm Modal
 function closeConfirmModal() {
     markerToDelete = null;
     confirmModal.classList.remove('active');
 }
 
-// Handle Confirm Delete
 function handleConfirmDelete() {
     if (markerToDelete !== null) {
-        fetch(`https://${GetParentResourceName()}/removeMarker`, {
+        fetch(`https://${resourceName}/removeMarker`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -227,7 +203,6 @@ function handleConfirmDelete() {
     closeConfirmModal();
 }
 
-// Open Share Modal
 function openShareModal(index) {
     markerToShare = index;
     shareModal.classList.add('active');
@@ -235,24 +210,21 @@ function openShareModal(index) {
     sharePlayerId.focus();
 }
 
-// Close Share Modal
 function closeShareModal() {
     markerToShare = null;
     shareModal.classList.remove('active');
     sharePlayerId.value = '';
 }
 
-// Handle Confirm Share
 function handleConfirmShare() {
     const playerId = parseInt(sharePlayerId.value);
     
     if (!playerId || playerId < 1) {
-        // Invalid player ID
         return;
     }
     
     if (markerToShare !== null) {
-        fetch(`https://${GetParentResourceName()}/shareMarker`, {
+        fetch(`https://${resourceName}/shareMarker`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -267,12 +239,8 @@ function handleConfirmShare() {
     closeShareModal();
 }
 
-// Helper function to get resource name
-function GetParentResourceName() {
-    return window.location.hostname === '' ? 'core_gps' : window.location.hostname;
-}
+const resourceName = (typeof GetParentResourceName === 'function' && GetParentResourceName()) || 'Core_Gps';
 
-// Helper function to escape HTML
 function escapeHtml(text) {
     const div = document.createElement('div');
     div.textContent = text;
