@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPS Marker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="gps-container" id="gpsContainer">
+        <div class="gps-header">
+            <h2>GPS Marker</h2>
+            <button class="close-btn" id="closeBtn">&times;</button>
+        </div>
+
+        <div class="gps-content">
+            <!-- Mark Location Section -->
+            <div class="section mark-section">
+                <div class="input-group">
+                    <input type="text" id="locationLabel" placeholder="Enter location name..." maxlength="50">
+                    <button class="btn btn-primary" id="markBtn">Mark Current Location</button>
+                </div>
+            </div>
+
+            <!-- Toggle Markers -->
+            <div class="section toggle-section">
+                <label class="toggle-label">
+                    <span>Show Markers on Map</span>
+                    <input type="checkbox" id="toggleMarkers" checked>
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+
+            <!-- Markers List -->
+            <div class="section markers-section">
+                <h3>Saved Locations (<span id="markerCount">0</span>)</h3>
+                <div class="markers-list" id="markersList">
+                    <!-- Markers will be dynamically added here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div class="modal" id="confirmModal">
+        <div class="modal-content">
+            <h3>Confirm Delete</h3>
+            <p>Are you sure you want to remove this marker?</p>
+            <div class="modal-buttons">
+                <button class="btn btn-danger" id="confirmDelete">OK</button>
+                <button class="btn btn-secondary" id="cancelDelete">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Share Modal -->
+    <div class="modal" id="shareModal">
+        <div class="modal-content">
+            <h3>Share Location</h3>
+            <p>Enter the player ID to share this location with:</p>
+            <input type="number" id="sharePlayerId" placeholder="Player ID" min="1">
+            <div class="modal-buttons">
+                <button class="btn btn-primary" id="confirmShare">Share</button>
+                <button class="btn btn-secondary" id="cancelShare">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
