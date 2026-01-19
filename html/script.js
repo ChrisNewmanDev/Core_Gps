@@ -16,6 +16,7 @@ const cancelDelete = document.getElementById('cancelDelete');
 const confirmShare = document.getElementById('confirmShare');
 const cancelShare = document.getElementById('cancelShare');
 const sharePlayerId = document.getElementById('sharePlayerId');
+const markerSearch = document.getElementById('markerSearch');
 closeBtn.addEventListener('click', closeUI);
 markBtn.addEventListener('click', markLocation);
 toggleMarkers.addEventListener('change', toggleMarkersVisibility);
@@ -23,6 +24,7 @@ confirmDelete.addEventListener('click', handleConfirmDelete);
 cancelDelete.addEventListener('click', closeConfirmModal);
 confirmShare.addEventListener('click', handleConfirmShare);
 cancelShare.addEventListener('click', closeShareModal);
+markerSearch.addEventListener('input', renderMarkers);
 
 locationLabel.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') {
@@ -118,10 +120,18 @@ function updateMarkers(markersData) {
 }
 
 function renderMarkers() {
-    markerCount.textContent = markers.length;
+    const term = markerSearch.value.trim().toLowerCase();
+    const mapped = markers.map((m, i) => ({ marker: m, index: i }));
+    const list = term
+        ? mapped.filter(({ marker }) =>
+            (marker.label && marker.label.toLowerCase().includes(term)) ||
+            (marker.street && marker.street.toLowerCase().includes(term))
+          )
+        : mapped;
+    markerCount.textContent = list.length;
     markersList.innerHTML = '';
     
-    if (markers.length === 0) {
+    if (list.length === 0) {
         markersList.innerHTML = `
             <div class="empty-state">
                 <p>No saved locations yet.<br>Mark your current location to get started!</p>
@@ -130,7 +140,7 @@ function renderMarkers() {
         return;
     }
     
-    markers.forEach((marker, index) => {
+    list.forEach(({ marker, index }) => {
         const markerItem = createMarkerElement(marker, index);
         markersList.appendChild(markerItem);
     });
@@ -140,17 +150,9 @@ function createMarkerElement(marker, index) {
     const div = document.createElement('div');
     div.className = 'marker-item';
     
-    const coords = `X: ${marker.coords.x.toFixed(1)}, Y: ${marker.coords.y.toFixed(1)}`;
-    const date = marker.timestamp ? new Date(marker.timestamp * 1000).toLocaleString() : 'Unknown';
-    
     div.innerHTML = `
         <div class="marker-header">
             <div class="marker-label">${escapeHtml(marker.label)}</div>
-        </div>
-        <div class="marker-info">
-            ${marker.street ? `📍 ${escapeHtml(marker.street)}` : ''}<br>
-            📌 ${coords}<br>
-            🕐 ${date}
         </div>
         <div class="marker-actions">
             <button class="marker-btn waypoint" data-index="${index}">Waypoint</button>

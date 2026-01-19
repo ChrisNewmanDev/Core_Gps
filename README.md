@@ -12,7 +12,7 @@ A FiveM GPS Marker script for QB-Core framework that allows players to mark, man
 - 📤 **Share Locations** - Share your saved locations with other players via ID
 - 💾 **Database Storage** - Markers are permanently saved using oxmysql
 - 🎒 **Item-Based Display** - Markers only appear on your map when you have the Core Gps item in your inventory
-- 🎨 **Modern UI** - Clean and intuitive interface similar to qb-radio
+- 🎨 **Modern UI** - Clean and intuitive interface
 
 ## Installation
 
@@ -146,33 +146,6 @@ Config.BlipSettings = {
     color = 1,
     scale = 0.8
 }
-```
-
-## Troubleshooting
-
-### UI Not Opening
-- Check F8 console for errors
-- Ensure qb-core is loaded before this resource
-- Verify the item is registered in shared/items.lua
-
-### Markers Not Showing on Map
-- Make sure "Show Markers on Map" toggle is enabled
-- Check if you have any saved markers
-- Restart the resource: `/restart core_gps`
-
-### Share Not Working
-- Verify the target player ID is correct
-- Ensure the target player is online
-- Check server console for errors
-
-## Commands (For Testing)
-
-You can add these commands in `client/cl_gps.lua` for testing:
-
-```lua
-RegisterCommand('gps', function()
-    TriggerEvent('core_gps:client:useItem')
-end, false)
 ```
 
 ## Credits

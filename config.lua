@@ -20,7 +20,7 @@ Config.BlipSettings = {
     color = 1, -- Blip color
     scale = 0.8,
     display = 4,
-    shortRange = false
+    shortRange = true
 }
 
 -- Maximum number of markers per player
