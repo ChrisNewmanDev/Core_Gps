@@ -178,7 +178,7 @@ end, false)
 ## Credits
 
 - **Framework**: QB-Core
-- **Developer**: Your Name
+- **Developer**: Chris Newman / Core
 - **Version**: 1.0.0
 
 ## Support
