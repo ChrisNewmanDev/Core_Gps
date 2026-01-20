@@ -1,3 +1,7 @@
+# Me
+Hello! If you’re enjoying the script and feel like supporting the work that went into it, consider buying me a coffee ☕
+https://buymeacoffee.com/core_scripts
+
 # core_gps
 
 A FiveM GPS Marker script for QB-Core framework that allows players to mark, manage, and share locations with a radio-style interface.
