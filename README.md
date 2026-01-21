@@ -72,11 +72,6 @@ core_gps = {
 
 Add a `core_gps.png` image to your `qb-inventory/html/images/` folder (or wherever your inventory images are stored).
 
-## Credits
-
-- **Framework**: QB-Core
-- **Developer**: Chris Newman / Core
-
 ## Support
 
 For issues or suggestions, please open an issue on the GitHub repository.
@@ -85,7 +80,10 @@ For issues or suggestions, please open an issue on the GitHub repository.
 
 This project is open source and available under the MIT License.
 
----
+## Credits
+
+- **Framework**: QB-Core
+- **Developer**: ChrisNewmanDev
 
 ## Changelog
 

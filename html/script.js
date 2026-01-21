@@ -241,7 +241,7 @@ function handleConfirmShare() {
     closeShareModal();
 }
 
-const resourceName = (typeof GetParentResourceName === 'function' && GetParentResourceName()) || 'Core_Gps';
+const resourceName = (typeof GetParentResourceName === 'function' && GetParentResourceName()) || 'core_gps';
 
 function escapeHtml(text) {
     const div = document.createElement('div');

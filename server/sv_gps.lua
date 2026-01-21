@@ -122,7 +122,7 @@ end)
 
 local CURRENT_VERSION = '1.0.0'
 local RESOURCE_NAME = 'core_gps'
-local VERSION_CHECK_URL = 'https://raw.githubusercontent.com/ChrisNewmanDev/Core_Gps/main/version.json'
+local VERSION_CHECK_URL = 'https://raw.githubusercontent.com/ChrisNewmanDev/core_gps/main/version.json'
 
 local function ParseVersion(version)
     local major, minor, patch = version:match('(%d+)%.(%d+)%.(%d+)')
@@ -208,7 +208,7 @@ local function CheckVersion()
                 end
             end
             
-            print('^2Download: ^7https://github.com/ChrisNewmanDev/Core_Gps/releases/latest')
+            print('^2Download: ^7https://github.com/ChrisNewmanDev/core_gps/releases/latest')
         end
         
         print('^3========================================^7')
