@@ -84,3 +84,17 @@ For issues or suggestions, please open an issue on the GitHub repository.
 ## License
 
 This project is open source and available under the MIT License.
+
+---
+
+## Changelog
+
+### Version 1.0.0 (Initial Release)
+- 📍 Mark current location with custom labels
+- 🗺️ Visual map markers (only visible when holding GPS item)
+- 🔄 Toggle markers on/off
+- 🚩 Set waypoints to saved locations
+- 🗑️ Remove markers with confirmation
+- 📤 Share locations with other players
+- 💾 Database storage with oxmysql
+- 🎨 Modern UI interface

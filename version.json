@@ -1,0 +1,28 @@
+{
+    "version": "1.0.0",
+    "changelog": {
+        "1.0.0": {
+            "date": "2026-01-21",
+            "changes": [
+                "Initial release",
+                "Mark current location with custom labels",
+                "Visual map markers (only visible when holding GPS item)",
+                "Toggle markers on/off",
+                "Set waypoints to saved locations",
+                "Remove markers with confirmation",
+                "Share locations with other players",
+                "Database storage with oxmysql",
+                "Modern UI interface"
+            ],
+            "files_to_update": [
+                "fxmanifest.lua",
+                "config.lua",
+                "client/cl_gps.lua",
+                "server/sv_gps.lua",
+                "html/index.html",
+                "html/style.css",
+                "html/script.js"
+            ]
+        }
+    }
+}
